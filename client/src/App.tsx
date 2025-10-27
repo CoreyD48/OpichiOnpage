@@ -31,9 +31,7 @@ function App() {
     setShowEmailForm(false);
     setIsUnlocked(false);
 
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
-
-    fetch(`${apiUrl}/api/analyze`, {
+    fetch('/api/analyze', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -111,10 +109,8 @@ function App() {
     e.preventDefault();
     if (!email) return;
 
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
-
     try {
-      const response = await fetch(`${apiUrl}/api/email`, {
+      const response = await fetch('/api/email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
