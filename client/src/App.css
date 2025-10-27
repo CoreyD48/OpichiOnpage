@@ -192,6 +192,84 @@ header h1 {
   color: #333;
 }
 
+/* Markdown Checklist Styles */
+.markdown-content {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', sans-serif;
+}
+
+.markdown-content .main-title {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 3px solid #667eea;
+}
+
+.markdown-content .section-title {
+  font-size: 1.4rem;
+  color: #444;
+  margin-top: 1.5rem;
+  margin-bottom: 0.8rem;
+  padding-left: 0.5rem;
+  border-left: 4px solid #667eea;
+}
+
+.markdown-content .section-subtitle {
+  font-size: 1.1rem;
+  color: #555;
+  margin-top: 1rem;
+  margin-bottom: 0.6rem;
+  font-weight: 600;
+}
+
+.markdown-content .text-content {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 0.8rem;
+}
+
+.markdown-content .text-content strong {
+  color: #333;
+  font-weight: 600;
+}
+
+.markdown-content .checklist {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+}
+
+.markdown-content .checklist-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  background: white;
+  border-radius: 6px;
+  border-left: 3px solid #e0e0e0;
+  transition: all 0.2s ease;
+}
+
+.markdown-content .checklist-item:hover {
+  border-left-color: #667eea;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+  transform: translateX(2px);
+}
+
+.markdown-content .checkbox {
+  font-size: 1.3rem;
+  color: #667eea;
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+  line-height: 1.4;
+}
+
+.markdown-content .item-text {
+  color: #333;
+  line-height: 1.6;
+  flex: 1;
+}
+
 .email-unlock {
   margin-top: 2rem;
 }

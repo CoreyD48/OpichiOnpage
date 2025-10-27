@@ -6,6 +6,79 @@ interface ProgressMessage {
   data?: any;
 }
 
+function MarkdownRenderer({ content }: { content: string }) {
+  const parseMarkdown = (text: string) => {
+    const lines = text.split('\n');
+    const elements: React.ReactElement[] = [];
+    let listItems: string[] = [];
+    let key = 0;
+
+    const flushList = () => {
+      if (listItems.length > 0) {
+        elements.push(
+          <ul key={key++} className="checklist">
+            {listItems.map((item, idx) => (
+              <li key={idx} className="checklist-item">
+                <span className="checkbox">☐</span>
+                <span className="item-text">{item}</span>
+              </li>
+            ))}
+          </ul>
+        );
+        listItems = [];
+      }
+    };
+
+    lines.forEach((line) => {
+      // Headers
+      if (line.startsWith('### ')) {
+        flushList();
+        elements.push(<h3 key={key++} className="section-subtitle">{line.slice(4)}</h3>);
+      } else if (line.startsWith('## ')) {
+        flushList();
+        elements.push(<h2 key={key++} className="section-title">{line.slice(3)}</h2>);
+      } else if (line.startsWith('# ')) {
+        flushList();
+        elements.push(<h1 key={key++} className="main-title">{line.slice(2)}</h1>);
+      }
+      // Numbered lists (like "1. Item")
+      else if (line.match(/^\d+\.\s+/)) {
+        const item = line.replace(/^\d+\.\s+/, '');
+        listItems.push(item);
+      }
+      // Bullet points
+      else if (line.match(/^[-*]\s+/)) {
+        const item = line.replace(/^[-*]\s+/, '');
+        listItems.push(item);
+      }
+      // Bold text
+      else if (line.includes('**')) {
+        flushList();
+        const parts = line.split('**');
+        const formatted = parts.map((part, i) => 
+          i % 2 === 1 ? <strong key={i}>{part}</strong> : part
+        );
+        elements.push(<p key={key++} className="text-content">{formatted}</p>);
+      }
+      // Regular text
+      else if (line.trim()) {
+        flushList();
+        elements.push(<p key={key++} className="text-content">{line}</p>);
+      }
+      // Empty line
+      else {
+        flushList();
+      }
+    });
+
+    flushList(); // Flush any remaining list items
+
+    return elements;
+  };
+
+  return <div className="markdown-content">{parseMarkdown(content)}</div>;
+}
+
 function App() {
   const [keyword, setKeyword] = useState('');
   const [url, setUrl] = useState('');
@@ -193,9 +266,9 @@ function App() {
 
         {analysis && (
           <div className="results-section">
-            <h2>SEO Gap Analysis</h2>
+            <h2>SEO Task Analysis</h2>
             <div className={`analysis-content ${!isUnlocked ? 'truncated' : ''}`}>
-              <pre>{displayAnalysis}</pre>
+              <MarkdownRenderer content={displayAnalysis} />
             </div>
 
             {!isUnlocked && showEmailForm && (
