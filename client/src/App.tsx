@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, type ReactElement } from 'react';
 
 interface ProgressMessage {
   message: string;
@@ -8,7 +8,7 @@ interface ProgressMessage {
 function MarkdownRenderer({ content }: { content: string }) {
   const parseMarkdown = (text: string) => {
     const lines = text.split('\n');
-    const elements: React.ReactElement[] = [];
+    const elements: ReactElement[] = [];
     let listItems: Array<{ content: string; type: 'action' | 'why' | 'examples' | 'default' }> = [];
     let key = 0;
 
