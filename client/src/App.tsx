@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from 'react';
-import './App.css';
 
 interface ProgressMessage {
   message: string;
@@ -10,17 +9,25 @@ function MarkdownRenderer({ content }: { content: string }) {
   const parseMarkdown = (text: string) => {
     const lines = text.split('\n');
     const elements: React.ReactElement[] = [];
-    let listItems: string[] = [];
+    let listItems: Array<{ content: string; type: 'action' | 'why' | 'examples' | 'default' }> = [];
     let key = 0;
 
     const flushList = () => {
       if (listItems.length > 0) {
         elements.push(
-          <ul key={key++} className="checklist">
+          <ul key={key++} className="list-none p-0 m-0 space-y-5">
             {listItems.map((item, idx) => (
-              <li key={idx} className="checklist-item">
-                <span className="checkbox">☐</span>
-                <span className="item-text">{item}</span>
+              <li key={idx} className="bg-gray-50 border border-gray-200 rounded-lg p-5 transition-all duration-300 hover:shadow-lg hover:border-purple-300">
+                <div className="flex items-start">
+                  <div className="flex-shrink-0 text-purple-600 mt-1 mr-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <div className="text-gray-700 leading-relaxed" dangerouslySetInnerHTML={{ __html: item.content }} />
+                  </div>
+                </div>
               </li>
             ))}
           </ul>
@@ -29,54 +36,74 @@ function MarkdownRenderer({ content }: { content: string }) {
       }
     };
 
+    const formatText = (text: string) => {
+      return text
+        .replace(/\*\*(.+?)\*\*/g, '<strong class="font-bold text-lg text-gray-800">$1</strong>')
+        .replace(/\*(.+?)\*/g, '<em>$1</em>');
+    };
+
     lines.forEach((line) => {
-      // Headers
       if (line.startsWith('### ')) {
         flushList();
-        elements.push(<h3 key={key++} className="section-subtitle">{line.slice(4)}</h3>);
+        const title = line.slice(4);
+        elements.push(
+          <h3 key={key++} className="text-2xl font-semibold text-gray-800 mt-8 mb-4 pb-2 border-b-2 border-purple-200">
+            {title}
+          </h3>
+        );
       } else if (line.startsWith('## ')) {
         flushList();
-        elements.push(<h2 key={key++} className="section-title">{line.slice(3)}</h2>);
+        const title = line.slice(3);
+        elements.push(
+          <h2 key={key++} className="text-3xl font-bold mb-6 text-gray-900">
+            {title}
+          </h2>
+        );
       } else if (line.startsWith('# ')) {
         flushList();
-        elements.push(<h1 key={key++} className="main-title">{line.slice(2)}</h1>);
-      }
-      // Numbered lists (like "1. Item")
-      else if (line.match(/^\d+\.\s+/)) {
-        const item = line.replace(/^\d+\.\s+/, '');
-        listItems.push(item);
-      }
-      // Bullet points
-      else if (line.match(/^[-*]\s+/)) {
-        const item = line.replace(/^[-*]\s+/, '');
-        listItems.push(item);
-      }
-      // Bold text
-      else if (line.includes('**')) {
-        flushList();
-        const parts = line.split('**');
-        const formatted = parts.map((part, i) => 
-          i % 2 === 1 ? <strong key={i}>{part}</strong> : part
+        const title = line.slice(2);
+        elements.push(
+          <h1 key={key++} className="text-4xl font-bold mb-4 text-gray-900">
+            {title}
+          </h1>
         );
-        elements.push(<p key={key++} className="text-content">{formatted}</p>);
-      }
-      // Regular text
-      else if (line.trim()) {
+      } else if (line.match(/^\d+\.\s+/) || line.match(/^[-*]\s+/)) {
+        const item = line.replace(/^\d+\.\s+/, '').replace(/^[-*]\s+/, '');
+        const formattedItem = formatText(item);
+        
+        let type: 'action' | 'why' | 'examples' | 'default' = 'default';
+        if (item.toLowerCase().startsWith('action:')) {
+          type = 'action';
+        } else if (item.toLowerCase().startsWith('why:')) {
+          type = 'why';
+        } else if (item.toLowerCase().startsWith('examples:') || item.toLowerCase().startsWith('example:')) {
+          type = 'examples';
+        }
+        
+        listItems.push({ content: formattedItem, type });
+      } else if (line.trim()) {
         flushList();
-        elements.push(<p key={key++} className="text-content">{line}</p>);
-      }
-      // Empty line
-      else {
+        const formattedLine = formatText(line);
+        
+        if (line.toLowerCase().includes('overall impression:') || line.toLowerCase().includes('summary:')) {
+          elements.push(
+            <p key={key++} className="text-gray-600 leading-relaxed mb-6 bg-yellow-50 border border-yellow-200 p-4 rounded-lg" dangerouslySetInnerHTML={{ __html: formattedLine }} />
+          );
+        } else {
+          elements.push(
+            <p key={key++} className="text-gray-700 leading-relaxed mb-4" dangerouslySetInnerHTML={{ __html: formattedLine }} />
+          );
+        }
+      } else {
         flushList();
       }
     });
 
-    flushList(); // Flush any remaining list items
-
+    flushList();
     return elements;
   };
 
-  return <div className="markdown-content">{parseMarkdown(content)}</div>;
+  return <div className="analysis-content">{parseMarkdown(content)}</div>;
 }
 
 function App() {
@@ -210,16 +237,21 @@ function App() {
   const displayAnalysis = isUnlocked ? analysis : truncateText(analysis, 500);
 
   return (
-    <div className="app">
-      <div className="container">
-        <header>
-          <h1>🔍 Opichi Onpage</h1>
-          <p className="tagline">Discover what's keeping your page from ranking #1</p>
+    <div className="bg-gradient-to-br from-purple-600 to-indigo-800 min-h-screen flex flex-col items-center py-12 px-4" style={{ fontFamily: 'Inter, sans-serif' }}>
+      <div className="w-full max-w-4xl mx-auto flex flex-col items-center gap-8">
+        
+        <header className="text-center text-white">
+          <h1 className="text-5xl font-bold mb-2" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.2)' }}>
+            🔍 Opichi Onpage
+          </h1>
+          <p className="text-xl opacity-90">Discover what's keeping your page from ranking #1</p>
         </header>
 
-        <form onSubmit={handleSubmit} className="input-form">
-          <div className="form-group">
-            <label htmlFor="keyword">Target Keyword</label>
+        <form onSubmit={handleSubmit} className="bg-white p-6 md:p-8 rounded-xl shadow-2xl w-full max-w-lg">
+          <div className="mb-5">
+            <label htmlFor="keyword" className="block mb-2 font-semibold text-gray-700">
+              Target Keyword
+            </label>
             <input
               id="keyword"
               type="text"
@@ -228,11 +260,14 @@ function App() {
               onChange={(e) => setKeyword(e.target.value)}
               disabled={isAnalyzing}
               required
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-900"
             />
           </div>
 
-          <div className="form-group">
-            <label htmlFor="url">Your Page URL</label>
+          <div className="mb-6">
+            <label htmlFor="url" className="block mb-2 font-semibold text-gray-700">
+              Your Page URL
+            </label>
             <input
               id="url"
               type="url"
@@ -241,52 +276,73 @@ function App() {
               onChange={(e) => setUrl(e.target.value)}
               disabled={isAnalyzing}
               required
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-900"
             />
           </div>
 
-          <button type="submit" disabled={isAnalyzing} className="analyze-btn">
+          <button
+            type="submit"
+            disabled={isAnalyzing}
+            className="w-full py-3 px-4 bg-gradient-to-r from-purple-600 to-indigo-700 text-white font-bold rounded-lg shadow-lg transform hover:scale-105 hover:shadow-xl transition-transform duration-300 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
+          >
             {isAnalyzing ? 'Analyzing...' : 'Analyze My Page'}
           </button>
         </form>
 
         {progress.length > 0 && (
-          <div className="progress-section">
-            <h2>Analysis Progress</h2>
-            <div className="progress-log">
-              {progress.map((msg, idx) => (
-                <div key={idx} className="progress-item">
-                  <span className="progress-bullet">•</span>
-                  <span className="progress-text">{msg.message}</span>
-                </div>
-              ))}
+          <div className="bg-white p-6 md:p-8 rounded-xl shadow-2xl w-full max-w-2xl text-gray-800">
+            <h2 className="text-2xl font-bold mb-4 text-gray-800">Analysis Progress</h2>
+            <div className="max-h-60 overflow-y-auto bg-gray-100 p-4 rounded-lg">
+              {progress.map((msg, idx) => {
+                const isComplete = msg.message.toLowerCase().includes('complete') || msg.message.toLowerCase().includes('done');
+                return (
+                  <div key={idx} className="flex items-start mb-2">
+                    <span className={`${isComplete ? 'text-green-600' : 'text-purple-600'} font-bold mr-2`}>
+                      {isComplete ? '✓' : '•'}
+                    </span>
+                    <span className={`${isComplete ? 'text-gray-900 font-semibold' : 'text-gray-700'}`}>
+                      {msg.message}
+                    </span>
+                  </div>
+                );
+              })}
               <div ref={progressEndRef} />
             </div>
           </div>
         )}
 
         {analysis && (
-          <div className="results-section">
-            <h2>SEO Task Analysis</h2>
-            <div className={`analysis-content ${!isUnlocked ? 'truncated' : ''}`}>
+          <div className="bg-white p-6 md:p-10 rounded-xl shadow-2xl w-full max-w-4xl text-gray-800 relative">
+            <h2 className="text-3xl font-bold mb-6 text-gray-900">SEO Task Analysis</h2>
+            
+            <div className={`${!isUnlocked ? 'max-h-96 overflow-hidden relative' : ''}`}>
               <MarkdownRenderer content={displayAnalysis} />
+              
+              {!isUnlocked && (
+                <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent pointer-events-none"></div>
+              )}
             </div>
 
             {!isUnlocked && showEmailForm && (
-              <div className="email-unlock">
-                <div className="unlock-overlay">
-                  <h3>🔓 Unlock Full Analysis</h3>
-                  <p>Enter your email to see the complete actionable checklist</p>
-                  <form onSubmit={handleEmailSubmit} className="email-form">
-                    <input
-                      type="email"
-                      placeholder="your@email.com"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                    />
-                    <button type="submit">Unlock Report</button>
-                  </form>
-                </div>
+              <div className="mt-8 bg-gradient-to-r from-purple-600 to-indigo-700 p-6 rounded-xl text-white text-center">
+                <h3 className="text-2xl font-bold mb-2">🔓 Unlock Full Analysis</h3>
+                <p className="mb-4 opacity-90">Enter your email to see the complete actionable checklist</p>
+                <form onSubmit={handleEmailSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+                  <input
+                    type="email"
+                    placeholder="your@email.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="flex-1 px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-white"
+                  />
+                  <button
+                    type="submit"
+                    className="px-6 py-3 bg-white text-purple-700 font-bold rounded-lg hover:bg-gray-100 transition-colors duration-200"
+                  >
+                    Unlock Report
+                  </button>
+                </form>
               </div>
             )}
           </div>
