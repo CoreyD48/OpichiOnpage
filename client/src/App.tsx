@@ -38,8 +38,8 @@ function MarkdownRenderer({ content }: { content: string }) {
 
     const formatText = (text: string) => {
       return text
-        .replace(/\*\*(.+?)\*\*/g, '<strong class="font-bold text-lg text-gray-800">$1</strong>')
-        .replace(/\*(.+?)\*/g, '<em>$1</em>');
+        .replace(/\*\*(.+?)\*\*/g, '<strong class="font-semibold text-gray-900">$1</strong>')
+        .replace(/\*(.+?)\*/g, '<em class="text-purple-700">$1</em>');
     };
 
     lines.forEach((line) => {
@@ -47,7 +47,10 @@ function MarkdownRenderer({ content }: { content: string }) {
         flushList();
         const title = line.slice(4);
         elements.push(
-          <h3 key={key++} className="text-2xl font-semibold text-gray-800 mt-8 mb-4 pb-2 border-b-2 border-purple-200">
+          <h3 key={key++} className="text-2xl font-bold text-gray-900 mt-10 mb-5 pb-3 border-b-2 border-purple-300 flex items-center">
+            <span className="bg-purple-100 text-purple-700 rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold mr-3">
+              {elements.filter(el => el.type === 'h3').length + 1}
+            </span>
             {title}
           </h3>
         );
@@ -55,7 +58,7 @@ function MarkdownRenderer({ content }: { content: string }) {
         flushList();
         const title = line.slice(3);
         elements.push(
-          <h2 key={key++} className="text-3xl font-bold mb-6 text-gray-900">
+          <h2 key={key++} className="text-3xl font-bold mb-6 mt-12 text-gray-900 border-l-4 border-purple-500 pl-4">
             {title}
           </h2>
         );
@@ -63,7 +66,7 @@ function MarkdownRenderer({ content }: { content: string }) {
         flushList();
         const title = line.slice(2);
         elements.push(
-          <h1 key={key++} className="text-4xl font-bold mb-4 text-gray-900">
+          <h1 key={key++} className="text-4xl font-bold mb-6 mt-8 text-gray-900 pb-4 border-b-4 border-purple-500">
             {title}
           </h1>
         );
@@ -85,13 +88,65 @@ function MarkdownRenderer({ content }: { content: string }) {
         flushList();
         const formattedLine = formatText(line);
         
-        if (line.toLowerCase().includes('overall impression:') || line.toLowerCase().includes('summary:')) {
+        // Check for special content types
+        if (line.toLowerCase().includes('overall assessment:') || line.toLowerCase().includes('overall impression:')) {
           elements.push(
-            <p key={key++} className="text-gray-600 leading-relaxed mb-6 bg-yellow-50 border border-yellow-200 p-4 rounded-lg" dangerouslySetInnerHTML={{ __html: formattedLine }} />
+            <div key={key++} className="bg-gradient-to-r from-purple-50 to-indigo-50 border-l-4 border-purple-500 p-5 rounded-lg mb-6 shadow-sm">
+              <div className="flex items-start">
+                <span className="text-2xl mr-3">📊</span>
+                <p className="text-gray-800 leading-relaxed font-medium flex-1" dangerouslySetInnerHTML={{ __html: formattedLine }} />
+              </div>
+            </div>
+          );
+        } else if (line.toLowerCase().startsWith('action:') || line.toLowerCase().includes('✅')) {
+          elements.push(
+            <div key={key++} className="bg-green-50 border-l-4 border-green-500 p-4 rounded-lg mb-4 shadow-sm">
+              <div className="flex items-start">
+                <span className="text-xl mr-3">✅</span>
+                <p className="text-gray-700 leading-relaxed flex-1" dangerouslySetInnerHTML={{ __html: formattedLine }} />
+              </div>
+            </div>
+          );
+        } else if (line.toLowerCase().startsWith('why:') || line.toLowerCase().includes('💡')) {
+          elements.push(
+            <div key={key++} className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-lg mb-4 shadow-sm">
+              <div className="flex items-start">
+                <span className="text-xl mr-3">💡</span>
+                <p className="text-gray-700 leading-relaxed flex-1" dangerouslySetInnerHTML={{ __html: formattedLine }} />
+              </div>
+            </div>
+          );
+        } else if (line.toLowerCase().startsWith('example:') || line.toLowerCase().includes('📝')) {
+          elements.push(
+            <div key={key++} className="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-lg mb-4 shadow-sm">
+              <div className="flex items-start">
+                <span className="text-xl mr-3">📝</span>
+                <p className="text-gray-700 leading-relaxed flex-1" dangerouslySetInnerHTML={{ __html: formattedLine }} />
+              </div>
+            </div>
+          );
+        } else if (line.toLowerCase().includes('warning:') || line.toLowerCase().includes('⚠️') || line.toLowerCase().includes('issue:')) {
+          elements.push(
+            <div key={key++} className="bg-red-50 border-l-4 border-red-400 p-4 rounded-lg mb-4 shadow-sm">
+              <div className="flex items-start">
+                <span className="text-xl mr-3">⚠️</span>
+                <p className="text-gray-700 leading-relaxed flex-1" dangerouslySetInnerHTML={{ __html: formattedLine }} />
+              </div>
+            </div>
+          );
+        } else if (line.toLowerCase().includes('summary:') || line.toLowerCase().includes('key takeaway:')) {
+          elements.push(
+            <div key={key++} className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-lg mb-4 shadow-sm">
+              <div className="flex items-start">
+                <span className="text-xl mr-3">📌</span>
+                <p className="text-gray-700 leading-relaxed flex-1" dangerouslySetInnerHTML={{ __html: formattedLine }} />
+              </div>
+            </div>
           );
         } else {
+          // Regular paragraphs with improved typography
           elements.push(
-            <p key={key++} className="text-gray-700 leading-relaxed mb-4" dangerouslySetInnerHTML={{ __html: formattedLine }} />
+            <p key={key++} className="text-gray-700 leading-7 mb-5 max-w-prose" dangerouslySetInnerHTML={{ __html: formattedLine }} />
           );
         }
       } else {
