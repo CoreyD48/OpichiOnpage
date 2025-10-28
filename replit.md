@@ -49,6 +49,19 @@ Opichi Onpage is an advanced SEO analysis tool that helps you understand why you
 
 ## Recent Changes
 
+**October 28, 2025**
+- Implemented structured data contract between Gemini AI and frontend
+- Updated Gemini prompt to enforce consistent output format with **Action:**, **Why:**, **Example:** markers
+- Enhanced frontend MarkdownRenderer with semantic color-coded cards:
+  - Green cards (✅) for Action items
+  - Blue cards (💡) for Why/rationale explanations
+  - Amber cards (📝) for Examples
+  - Purple gradient for Overall Assessment
+  - Red cards (⚠️) for Warnings/Issues
+  - Yellow cards (📌) for Summaries
+- Improved typography with better line height, spacing, and max-width for readability
+- Enhanced heading hierarchy with numbered badges and color accents
+
 **October 27, 2025**
 - Initial project setup
 - Implemented frontend with React + Vite
