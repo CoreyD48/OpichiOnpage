@@ -87,9 +87,10 @@ function MarkdownRenderer({ content }: { content: string }) {
       } else if (line.trim()) {
         flushList();
         const formattedLine = formatText(line);
+        const lowerLine = line.toLowerCase();
         
-        // Check for special content types
-        if (line.toLowerCase().includes('overall assessment:') || line.toLowerCase().includes('overall impression:')) {
+        // Check for special content types with markdown bold markers
+        if (lowerLine.includes('overall assessment') || lowerLine.includes('overall impression')) {
           elements.push(
             <div key={key++} className="bg-gradient-to-r from-purple-50 to-indigo-50 border-l-4 border-purple-500 p-5 rounded-lg mb-6 shadow-sm">
               <div className="flex items-start">
@@ -98,7 +99,7 @@ function MarkdownRenderer({ content }: { content: string }) {
               </div>
             </div>
           );
-        } else if (line.toLowerCase().startsWith('action:') || line.toLowerCase().includes('✅')) {
+        } else if (lowerLine.includes('**action:**') || lowerLine.startsWith('action:')) {
           elements.push(
             <div key={key++} className="bg-green-50 border-l-4 border-green-500 p-4 rounded-lg mb-4 shadow-sm">
               <div className="flex items-start">
@@ -107,7 +108,7 @@ function MarkdownRenderer({ content }: { content: string }) {
               </div>
             </div>
           );
-        } else if (line.toLowerCase().startsWith('why:') || line.toLowerCase().includes('💡')) {
+        } else if (lowerLine.includes('**why:**') || lowerLine.startsWith('why:')) {
           elements.push(
             <div key={key++} className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-lg mb-4 shadow-sm">
               <div className="flex items-start">
@@ -116,7 +117,7 @@ function MarkdownRenderer({ content }: { content: string }) {
               </div>
             </div>
           );
-        } else if (line.toLowerCase().startsWith('example:') || line.toLowerCase().includes('📝')) {
+        } else if (lowerLine.includes('**example:**') || lowerLine.startsWith('example:')) {
           elements.push(
             <div key={key++} className="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-lg mb-4 shadow-sm">
               <div className="flex items-start">
@@ -125,7 +126,7 @@ function MarkdownRenderer({ content }: { content: string }) {
               </div>
             </div>
           );
-        } else if (line.toLowerCase().includes('warning:') || line.toLowerCase().includes('⚠️') || line.toLowerCase().includes('issue:')) {
+        } else if (lowerLine.includes('warning:') || lowerLine.includes('issue:')) {
           elements.push(
             <div key={key++} className="bg-red-50 border-l-4 border-red-400 p-4 rounded-lg mb-4 shadow-sm">
               <div className="flex items-start">
@@ -134,7 +135,7 @@ function MarkdownRenderer({ content }: { content: string }) {
               </div>
             </div>
           );
-        } else if (line.toLowerCase().includes('summary:') || line.toLowerCase().includes('key takeaway:')) {
+        } else if (lowerLine.includes('summary:') || lowerLine.includes('key takeaway:')) {
           elements.push(
             <div key={key++} className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-lg mb-4 shadow-sm">
               <div className="flex items-start">

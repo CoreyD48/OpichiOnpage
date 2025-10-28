@@ -56,22 +56,42 @@ ${competitorContent}
 TASK:
 Compare the user's page against the top-ranking competitor pages for the keyword "${keyword}".
 
-Provide a detailed, actionable checklist of what is MISSING or WEAK on the user's page compared to the competitors. Focus on:
+Provide a detailed, actionable analysis of what is MISSING or WEAK on the user's page compared to the competitors.
 
-1. **Content Gaps**: Topics, subtopics, or keywords covered by competitors but missing from the user's page
-2. **Content Depth**: Areas where competitors provide more detailed information
-3. **Structured Data**: Schema markup or structured data present on competitor pages
-4. **On-Page Elements**: Missing or weak title tags, meta descriptions, headers (H1, H2, etc.)
-5. **User Experience**: Features like FAQs, tables, lists, images that competitors use
-6. **Internal Linking**: Link patterns or site structure elements
-7. **Content Format**: Better use of formatting, multimedia, or interactive elements
+CRITICAL: You MUST use this exact format for each recommendation:
 
-For each item in the checklist:
-- Be specific and actionable
-- Explain WHY it matters for ranking
-- Provide concrete examples from the competitor pages
+**Action:** [What specific change to make]
+**Why:** [Why this matters for SEO and ranking]
+**Example:** [Concrete example from competitor pages showing how they do this]
 
-Format your response as a clear, numbered checklist with sections. Make it comprehensive but easy to follow.`;
+Start with an overall assessment paragraph, then organize your analysis into these sections using ## headings:
+
+## Content Gaps
+## Content Depth & Quality
+## On-Page SEO Elements
+## User Experience Features
+## Technical SEO
+
+Within each section, list 3-5 specific recommendations using the Action/Why/Example format shown above.
+
+IMPORTANT FORMATTING RULES:
+1. Start each recommendation with "**Action:**" on its own line
+2. Follow with "**Why:**" on the next line
+3. End with "**Example:**" on the third line
+4. Leave a blank line between recommendations
+5. Use ## for main section headings
+6. Keep the overall assessment paragraph at the top brief (2-3 sentences)
+
+Example format:
+## Content Gaps
+
+**Action:** Add a comprehensive buyer's guide section comparing different product types
+**Why:** All top-ranking competitors include detailed buying guides which help users make informed decisions and increase time on page - a key ranking signal
+**Example:** Competitor #1 has a 1,500-word buyer's guide covering features, price ranges, and use cases that doesn't exist on your page
+
+**Action:** [Next recommendation]
+**Why:** [Explanation]
+**Example:** [Concrete example]`;
 
   sendProgress('Streaming AI analysis...');
 
