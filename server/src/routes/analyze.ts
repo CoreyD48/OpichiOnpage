@@ -33,13 +33,18 @@ router.post('/', async (req: Request, res: Response) => {
     for (let i = 0; i < topResults.length; i++) {
       const result = topResults[i];
       sendProgress(`Scraping page ${i + 1} of ${topResults.length}: ${result.url}`);
-      const scraped = await scrapePage(result.url);
-      competitorPages.push({
-        url: result.url,
-        title: result.title,
-        position: result.position,
-        ...scraped
-      });
+      try {
+        const scraped = await scrapePage(result.url);
+        competitorPages.push({
+          url: result.url,
+          title: result.title,
+          position: result.position,
+          ...scraped
+        });
+      } catch (error: any) {
+        sendProgress(`Failed to scrape ${result.url}: ${error.message}. Skipping...`);
+        console.error(`Failed to scrape ${result.url}:`, error.message);
+      }
     }
 
     sendProgress('Scraping your page...');
