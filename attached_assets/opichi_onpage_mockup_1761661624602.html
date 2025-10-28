@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opichi Onpage Mockup</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Inter font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-purple-600 to-indigo-800 min-h-screen flex flex-col items-center py-12 px-4">
+
+    <!-- This div acts as the main container, centered on the page -->
+    <div class="w-full max-w-4xl mx-auto flex flex-col items-center gap-8">
+
+        <!-- Header Section -->
+        <header class="text-center text-white">
+            <h1 class="text-5xl font-bold mb-2 text-shadow">🔍 Opichi Onpage</h1>
+            <p class="text-xl opacity-90">Discover what's keeping your page from ranking #1</p>
+        </header>
+
+        <!-- Input Form Section -->
+        <form class="bg-white p-6 md:p-8 rounded-xl shadow-2xl w-full max-w-lg">
+            <div class="mb-5">
+                <label for="keyword" class="block mb-2 font-semibold text-gray-700">Target Keyword</label>
+                <input id="keyword" placeholder="e.g., best running shoes" required type="text" value="everglades airboat tours" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-900">
+            </div>
+            <div class="mb-6">
+                <label for="url" class="block mb-2 font-semibold text-gray-700">Your Page URL</label>
+                <input id="url" placeholder="https://example.com/your-page" required type="url" value="https://www.evergladesholidaypark.com/airboat-tours/everglades-airboat-tours/" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-900">
+            </div>
+            <button type="submit" class="w-full py-3 px-4 bg-gradient-to-r from-purple-600 to-indigo-700 text-white font-bold rounded-lg shadow-lg transform hover:scale-105 hover:shadow-xl transition-transform duration-300">
+                Analyze My Page
+            </button>
+        </form>
+
+        <!-- Progress Section (Example) -->
+        <div class="bg-white p-6 md:p-8 rounded-xl shadow-2xl w-full max-w-2xl text-gray-800">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">Analysis Progress</h2>
+            <div class="max-h-60 overflow-y-auto bg-gray-100 p-4 rounded-lg">
+                <div class="flex items-start mb-2">
+                    <span class="text-purple-600 font-bold mr-2">•</span>
+                    <span class="text-gray-700">Starting analysis...</span>
+                </div>
+                <div class="flex items-start mb-2">
+                    <span class="text-purple-600 font-bold mr-2">•</span>
+                    <span class="text-gray-700">Searching for top 5 organic results...</span>
+                </div>
+                <!-- ... other progress items ... -->
+                <div class="flex items-start">
+                    <span class="text-green-600 font-bold mr-2">✓</span>
+                    <span class="text-gray-900 font-semibold">Analysis complete!</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEO Task Analysis Section (Restyled) -->
+        <div class="bg-white p-6 md:p-10 rounded-xl shadow-2xl w-full max-w-4xl text-gray-800">
+            <h2 class="text-3xl font-bold mb-6 text-gray-900">SEO Task Analysis</h2>
+            
+            <div class="analysis-content">
+                <p class="text-gray-600 leading-relaxed mb-6 bg-yellow-50 border border-yellow-200 p-4 rounded-lg">
+                    <strong>Overall Impression:</strong> Your page has a good foundation, but it needs significant improvement to compete. It's lacking depth, comprehensive info, and crucial on-page SEO factors. Competitors generally offer more detailed and engaging experiences.
+                </p>
+
+                <!-- Section: Content Gaps -->
+                <h3 class="text-2xl font-semibold text-gray-800 mt-8 mb-4 pb-2 border-b-2 border-purple-200">
+                    1. Content Gaps (Missing Topics &amp; Keywords)
+                </h3>
+                <ul class="list-none p-0 m-0 space-y-5">
+                    <!-- Checklist Item Card -->
+                    <li class="bg-gray-50 border border-gray-200 rounded-lg p-5 transition-all duration-300 hover:shadow-lg hover:border-purple-300">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 text-purple-600 mt-1 mr-3">
+                                <!-- SVG Checkbox Icon -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <div class="flex-1">
+                                <span class="font-bold text-lg text-gray-800">Action:</span>
+                                <p class="text-gray-700 leading-relaxed">Create content addressing these missing topics.</p>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- Checklist Item Card -->
+                    <li class="bg-gray-50 border border-gray-200 rounded-lg p-5 transition-all duration-300 hover:shadow-lg hover:border-purple-300">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 text-purple-600 mt-1 mr-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <div class="flex-1">
+                                <span class="font-bold text-lg text-gray-800">Why:</span>
+                                <p class="text-gray-700 leading-relaxed">Covering a wider range of related topics signals to Google that your page is a comprehensive resource and allows you to naturally incorporate more relevant keywords.</p>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- Checklist Item Card -->
+                    <li class="bg-gray-50 border border-gray-200 rounded-lg p-5 transition-all duration-300 hover:shadow-lg hover:border-purple-300">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 text-purple-600 mt-1 mr-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <div class="flex-1">
+                                <span class="font-bold text-lg text-gray-800">Examples:</span>
+                                <ul class="list-disc pl-6 mt-2 space-y-2 text-gray-600">
+                                    <li><strong>Specific Everglades Locations/Entry Points:</strong> Competitors mention Everglades National Park, Kissimmee, and locations near Miami. Add sections for "Everglades Airboat Tours near Miami," etc.</li>
+                                    <li><strong>Types of Airboat Tours:</strong> Differentiate between group tours, private tours, sunset tours, and night tours. Create dedicated sections for each.</li>
+                                    <li><strong>What to Bring/Wear:</strong> An additional opportunity to highlight weather, clothing, and equipment.</li>
+                                    <li><strong>Wildlife Guarantee:</strong> Highlight likely wildlife sightings (crocodiles, native plants, fish, turtles, birds).</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
+                <!-- Section: Content Depth -->
+                <h3 class="text-2xl font-semibold text-gray-800 mt-8 mb-4 pb-2 border-b-2 border-purple-200">
+                    2. Content Depth (Detailed Information)
+                </h3>
+                <ul class="list-none p-0 m-0 space-y-5">
+                    <!-- Checklist Item Card -->
+                    <li class="bg-gray-50 border border-gray-200 rounded-lg p-5 transition-all duration-300 hover:shadow-lg hover:border-purple-300">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 text-purple-600 mt-1 mr-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <div class="flex-1">
+                                <span class="font-bold text-lg text-gray-800">Action:</span>
+                                <p class="text-gray-700 leading-relaxed">Expand on existing sections with more details and provide more in-depth explanations.</p>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- ... other items for section 2 ... -->
+                </ul>
+
+                <!-- Section: Structured Data -->
+                <h3 class="text-2xl font-semibold text-gray-800 mt-8 mb-4 pb-2 border-b-2 border-purple-200">
+                    3. Structured Data (Schema Markup)
+                </h3>
+                <ul class="list-none p-0 m-0 space-y-5">
+                    <!-- Checklist Item Card -->
+                    <li class="bg-gray-50 border border-gray-200 rounded-lg p-5 transition-all duration-300 hover:shadow-lg hover:border-purple-300">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 text-purple-600 mt-1 mr-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <div class="flex-1">
+                                <span class="font-bold text-lg text-gray-800">Action:</span>
+                                <p class="text-gray-700 leading-relaxed">Implement relevant schema markup (e.g., `LocalBusiness`, `Product`, `Event`, `FAQPage`, `Review`).</p>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- ... other items for section 3 ... -->
+                </ul>
+
+                <!-- Add other sections here following the same pattern -->
+
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
