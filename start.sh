@@ -1,11 +1,19 @@
 #!/bin/bash
+set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-cd "$SCRIPT_DIR/server" && npm run dev &
-SERVER_PID=$!
+echo "Installing server dependencies..."
+cd "$SCRIPT_DIR/server" && npm install
 
-cd "$SCRIPT_DIR/client" && npm run dev &
-CLIENT_PID=$!
+echo "Installing client dependencies..."
+cd "$SCRIPT_DIR/client" && npm install
 
-wait $SERVER_PID $CLIENT_PID
+echo "Building client..."
+cd "$SCRIPT_DIR/client" && npm run build
+
+echo "Building server..."
+cd "$SCRIPT_DIR/server" && npm run build
+
+echo "Starting server..."
+cd "$SCRIPT_DIR/server" && npm start
